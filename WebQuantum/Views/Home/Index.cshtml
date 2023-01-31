@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/circuit.css"/>
+
+        <!-- Подключение библиотеки jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+                crossorigin="anonymous">
+        </script>
+
+        <script>
+
+            // Расположение оператора на схеме
+            function changeStyleTo() {
+                this.setAttribute("class", "op2");
+                s = "";
+
+                $.ajax({
+                    url: '@Url.Action("Get", "Home")',
+                    type: 'get',
+                    async: false,
+                    success: function(data) {
+                        s = data;
+                    }
+                });
+
+                this.innerHTML = s;
+                // Отправка данных в квантовое ядро ...
+            }
+
+            // Удаление оператора со схемы
+            function changeStyleFrom() {
+                this.setAttribute("class", "op");
+                this.innerHTML = "";
+                // Отправка данных в квантовое ядро ...
+                return false;
+            }
+
+            // Отрисовка линии на схеме
+            function draw() {
+                var c = document.getElementById("line");
+                var ctx = c.getContext("2d");
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 40);
+                ctx.lineTo(1000, 40);
+                ctx.stroke();
+            }
+
+            // Выбор оператора
+            function choose() {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Choose", "Home")',
+                    data: { op: this.id },
+                    dataType: "json"
+                });
+
+                arr = document.getElementsByClassName("active_operator");
+                for (var i = 0; i < arr.length; i++) {
+                    arr[i].setAttribute("class", "operator");
+                }
+
+                this.setAttribute("class", "active_operator");
+
+                
+            }
+
+            // Загрузка объектов страницы
+            document.addEventListener("DOMContentLoaded", function() {
+                var q = document.getElementById("q1");
+                for (var i = 0; i < 12; i++) {  // ЧИСЛО ВЗЯТО СЛУЧАЙНО!!!
+                    var div = document.createElement("div");
+                    div.id = i;
+                    div.style.left = (i * 80) + "px";   // ПЕРЕСЧИТАТЬ!!!
+                    div.setAttribute("class", "op");
+                    div.onclick = changeStyleTo;
+                    div.oncontextmenu = changeStyleFrom;
+                    q.appendChild(div);
+                }
+
+                var op = document.getElementsByClassName("operator");
+                for (var i = 0; i < op.length; i++) {
+                    op[i].onclick = choose;
+                }
+
+                draw();
+            });
+        </script>
+    </head>
+
+    <body>
+        <div class="text-center">
+            <h1 class="display-4">Квантовая схема</h1>
+
+            <div class="table">
+                <div class="row">
+                    <div class="operator" id="I">I</div>
+                    <div class="operator" id="H">H</div>
+                    <div class="operator" id="X">X</div>
+                    <div class="operator" id="Y">Y</div>
+                    <div class="operator" id="Z">Z</div>
+                    <div class="operator" id="S">S</div>
+                    <div class="operator" id="T">T</div>
+                    <div class="operator" id="M">M</div>
+                </div>
+            </div>
+            
+            <div class="qubit" id="q1">
+                <canvas id="line" width="1000" height="80"></canvas>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+@*<script>
+    var isDown = false;
+    var div = document.getElementById("h");
+    var field = document.getElementById("q1");
+
+    var offset = [0, 0];
+    var start = [div.style.left, div.style.top];
+    var mousePosition;
+
+    div.addEventListener("mousedown", function (e) {
+        isDown = true;
+        offset = [
+            div.offsetLeft - e.clientX,
+            div.offsetTop - e.clientY
+        ];
+    }, true);
+
+    div.addEventListener("mouseup", function (e) {
+        var x = field.style.left;
+        var y = field.style.top;
+        var dy = field.style.height;
+
+        console.log(y);
+        console.log(dy);
+        console.log(mousePosition.y)
+
+        if (!(mousePosition.y >= y && mousePosition.y <= y + dy)) {
+            div.style.left = start[0];
+            div.style.top = start[1];
+        }
+
+        isDown = false;
+    }, true);
+
+    div.addEventListener("mousemove", function (e) {
+        e.preventDefault();
+        if (isDown) {
+            mousePosition = {
+                x: e.clientX,
+                y: e.clientY
+            };
+            div.style.left = (mousePosition.x + offset[0]) + "px";
+            div.style.top = (mousePosition.y + offset[1]) + "px";
+        }
+    }, true);
+</script>*@

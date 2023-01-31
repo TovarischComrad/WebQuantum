@@ -1,0 +1,83 @@
+﻿.table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 10px;
+    width: 600px;
+}
+
+.row {
+    display: table-row;
+}
+
+div.operator {
+    /*position: absolute;*/
+    display: table-cell;
+    border: solid black;
+    font-size: 24px;
+    padding: 10px;
+    width: 60px;
+    cursor: pointer;
+    z-index: 1;
+    background-color: white;
+    /*border: 20px;*/
+    /*border-collapse: separate;*/
+    /*border-spacing: 20px;*/
+}
+
+.active_operator {
+    display: table-cell;
+    border: solid red;
+    font-size: 24px;
+    padding: 10px;
+    width: 60px;
+    cursor: pointer;
+    z-index: 1;
+    background-color: white;
+}
+
+div.qubit {
+    padding-left: 8px;
+    position: absolute;
+    left: 10%;
+    top: 250px;
+    width: 50%;
+    height: 80px;
+    z-index: 0;
+}
+
+div.op {
+    position: absolute;
+    margin: 8px;
+    display: table-cell;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    background-color: white;
+    opacity: 0;
+}
+
+div.op:hover {
+    background-color: #808080;
+    opacity: 0.3;
+}
+
+div.op2 {
+    position: absolute;
+    font-size: 24px;
+    padding: 8px;
+    margin: 8px;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    background-color: white;
+    opacity: 1;
+    border: solid;
+    z-index: 1;
+}
+
+canvas {
+    z-index: 0;
+    color: black;
+    left: 0;
+    position: absolute;
+}
