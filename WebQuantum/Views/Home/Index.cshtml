@@ -16,6 +16,8 @@
 
         <script>
 
+            var Id = 0;
+
             // Расположение оператора на схеме
             function changeStyleTo() {
                 this.setAttribute("class", "op2");
@@ -43,14 +45,14 @@
             }
 
             // Отрисовка линии на схеме
-            function draw() {
-                var c = document.getElementById("line");
+            function draw(id) {
+                var c = document.getElementById(id);
                 var ctx = c.getContext("2d");
                 ctx.strokeStyle = "black";
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 3;
                 ctx.beginPath();
-                ctx.moveTo(0, 40);
-                ctx.lineTo(1000, 40);
+                ctx.moveTo(0, 75);
+                ctx.lineTo(300, 75);
                 ctx.stroke();
             }
 
@@ -62,115 +64,125 @@
                     data: { op: this.id },
                     dataType: "json"
                 });
-
                 arr = document.getElementsByClassName("active_operator");
                 for (var i = 0; i < arr.length; i++) {
                     arr[i].setAttribute("class", "operator");
                 }
+                this.setAttribute("class", "active_operator");   
+            }
 
-                this.setAttribute("class", "active_operator");
+            function setCanvas(div, id) {
+                var canvas = document.createElement("canvas");
+                canvas.id = id;
+                div.appendChild(canvas);
+            }
 
+            function addQubit() {
+                m = 15;
+
+                var tr = document.createElement("tr");
+                tr.id = "q" + Id;
+                console.log(Id);
+                for (var j = 0; j < m; j++) {
+                    var td = document.createElement("td");
+
+                    var canvas = document.createElement("canvas");
+                    canvas.id = "c" + Id + "_" + j;
+                    td.appendChild(canvas);
+
+
+                    var operator = addOperator(j);
+                    td.appendChild(operator);
+                    tr.appendChild(td);
+                }
+                var table = document.getElementById("qreg");
+                table.appendChild(tr);
+
+                for (var j = 0; j < m; j++) {
+                    draw("c" + Id + "_" + j);
+                }
+
+                Id = Id + 1;
+                return tr;
+            }
+
+            function deleteQubit() {
+                Id = Id - 1;
+                var q = document.getElementById("q" + Id);
+                console.log("q" + Id);
+                q.remove(); 
+            }
+
+            function addOperator(i) {
+                var operator = document.createElement("div");
+                operator.id = "op" + Id + "_" + i;
+                operator.setAttribute("class", "op");
+                operator.onclick = changeStyleTo;
+                operator.oncontextmenu = changeStyleFrom;
+                return operator;
+            }
+
+            function setTable() {
+                n = 5;
                 
+
+                var div = document.getElementById("main");
+                var table = document.createElement("table");
+                table.id = "qreg";
+                div.appendChild(table);
+
+                for (var i = 0; i < n; i++) {
+                    var tr = addQubit();
+                    // table.appendChild(tr);
+                }
+                
+
+                //for (var i = 0; i < n; i++) {
+                //    for (var j = 0; j < m; j++) {
+                //        var id = "c" + i + "_" + j;
+                //        draw(id);
+                //    }
+                //}
             }
 
             // Загрузка объектов страницы
             document.addEventListener("DOMContentLoaded", function() {
-                var q = document.getElementById("q1");
-                for (var i = 0; i < 12; i++) {  // ЧИСЛО ВЗЯТО СЛУЧАЙНО!!!
-                    var div = document.createElement("div");
-                    div.id = i;
-                    div.style.left = (i * 80) + "px";   // ПЕРЕСЧИТАТЬ!!!
-                    div.setAttribute("class", "op");
-                    div.onclick = changeStyleTo;
-                    div.oncontextmenu = changeStyleFrom;
-                    q.appendChild(div);
-                }
+                setTable();
 
                 var op = document.getElementsByClassName("operator");
                 for (var i = 0; i < op.length; i++) {
                     op[i].onclick = choose;
                 }
 
-                draw();
+                var btn1 = document.getElementById("btn1");
+                btn1.onclick = addQubit;
+
+                var btn2 = document.getElementById("btn2");
+                btn2.onclick = deleteQubit;
             });
         </script>
     </head>
 
     <body>
-        <div class="text-center">
+        <div class="text-center" id="main">
             <h1 class="display-4">Квантовая схема</h1>
 
-            <div class="table">
-                <div class="row">
-                    <div class="operator" id="I">I</div>
-                    <div class="operator" id="H">H</div>
-                    <div class="operator" id="X">X</div>
-                    <div class="operator" id="Y">Y</div>
-                    <div class="operator" id="Z">Z</div>
-                    <div class="operator" id="S">S</div>
-                    <div class="operator" id="T">T</div>
-                    <div class="operator" id="M">M</div>
-                </div>
-            </div>
-            
-            <div class="qubit" id="q1">
-                <canvas id="line" width="1000" height="80"></canvas>
-            </div>
+            <table>
+                <tr>
+                    <td><div class="operator" id="I">I</div></td>
+                    <td><div class="operator" id="H">H</div></td>
+                    <td><div class="operator" id="X">X</div></td>
+                    <td><div class="operator" id="Y">Y</div></td>
+                    <td><div class="operator" id="Z">Z</div></td>
+                    <td><div class="operator" id="S">S</div></td>
+                    <td><div class="operator" id="T">T</div></td>
+                    <td><div class="operator" id="M">M</div></td>
+
+                    <td><button id="btn1">Add</button> </td>
+                    <td><button id="btn2">Remove</button> </td>
+                </tr>
+            </table>
+            <br />  
         </div>
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-@*<script>
-    var isDown = false;
-    var div = document.getElementById("h");
-    var field = document.getElementById("q1");
-
-    var offset = [0, 0];
-    var start = [div.style.left, div.style.top];
-    var mousePosition;
-
-    div.addEventListener("mousedown", function (e) {
-        isDown = true;
-        offset = [
-            div.offsetLeft - e.clientX,
-            div.offsetTop - e.clientY
-        ];
-    }, true);
-
-    div.addEventListener("mouseup", function (e) {
-        var x = field.style.left;
-        var y = field.style.top;
-        var dy = field.style.height;
-
-        console.log(y);
-        console.log(dy);
-        console.log(mousePosition.y)
-
-        if (!(mousePosition.y >= y && mousePosition.y <= y + dy)) {
-            div.style.left = start[0];
-            div.style.top = start[1];
-        }
-
-        isDown = false;
-    }, true);
-
-    div.addEventListener("mousemove", function (e) {
-        e.preventDefault();
-        if (isDown) {
-            mousePosition = {
-                x: e.clientX,
-                y: e.clientY
-            };
-            div.style.left = (mousePosition.x + offset[0]) + "px";
-            div.style.top = (mousePosition.y + offset[1]) + "px";
-        }
-    }, true);
-</script>*@

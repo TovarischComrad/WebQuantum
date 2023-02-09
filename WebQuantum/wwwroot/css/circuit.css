@@ -1,8 +1,25 @@
-﻿.table {
+﻿table, tr, td {
+    border: 1px solid black;
+}
+
+table {
+    /*width: 1200px;*/
+}
+
+tr {
+    height: 80px;
+    width: 80px;
+}
+
+td {
+    padding: 10px;
+}
+
+.table {
     display: table;
     border-collapse: separate;
     border-spacing: 10px;
-    width: 600px;
+    width: 1000px;
 }
 
 .row {
@@ -10,7 +27,6 @@
 }
 
 div.operator {
-    /*position: absolute;*/
     display: table-cell;
     border: solid black;
     font-size: 24px;
@@ -19,9 +35,6 @@ div.operator {
     cursor: pointer;
     z-index: 1;
     background-color: white;
-    /*border: 20px;*/
-    /*border-collapse: separate;*/
-    /*border-spacing: 20px;*/
 }
 
 .active_operator {
@@ -36,24 +49,24 @@ div.operator {
 }
 
 div.qubit {
-    padding-left: 8px;
-    position: absolute;
-    left: 10%;
-    top: 250px;
-    width: 50%;
+    position: relative;
+    padding-left: 25px;
+    padding-bottom: 8px;
+    width: 1000px;
     height: 80px;
     z-index: 0;
 }
 
 div.op {
-    position: absolute;
-    margin: 8px;
-    display: table-cell;
+    position: relative;
+/*    margin-right: 8px;
+    margin-top: 8px;*/
     width: 60px;
     height: 60px;
     cursor: pointer;
     background-color: white;
     opacity: 0;
+    z-index: 2;
 }
 
 div.op:hover {
@@ -62,22 +75,25 @@ div.op:hover {
 }
 
 div.op2 {
-    position: absolute;
+    position: relative;
+/*    margin-top: 8px;*/
     font-size: 24px;
-    padding: 8px;
-    margin: 8px;
     width: 60px;
     height: 60px;
     cursor: pointer;
     background-color: white;
     opacity: 1;
     border: solid;
-    z-index: 1;
+    z-index: 2;
+/*    margin-right: 8px;*/
 }
 
 canvas {
-    z-index: 0;
+    z-index: 1;
     color: black;
-    left: 0;
+    width: 80px;
+    height: 80px;
     position: absolute;
+    /*border: 1px solid red;*/
+    transform: translateX(-50%) translateY(-13%);
 }
