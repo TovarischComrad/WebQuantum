@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebQuantum", "WebQuantum\WebQuantum.csproj", "{1944E0BE-5589-418B-B337-9A6A5ACCB9AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{D4451DDD-BFA9-4D04-8DA7-C3E1F461E432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{D4451DDD-BFA9-4D04-8DA7-C3E1F461E432}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuantumCore", "QuantumCore\QuantumCore.csproj", "{89EA6F8A-46FB-432F-A553-59B5BAD85215}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D4451DDD-BFA9-4D04-8DA7-C3E1F461E432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4451DDD-BFA9-4D04-8DA7-C3E1F461E432}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4451DDD-BFA9-4D04-8DA7-C3E1F461E432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89EA6F8A-46FB-432F-A553-59B5BAD85215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89EA6F8A-46FB-432F-A553-59B5BAD85215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89EA6F8A-46FB-432F-A553-59B5BAD85215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89EA6F8A-46FB-432F-A553-59B5BAD85215}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
