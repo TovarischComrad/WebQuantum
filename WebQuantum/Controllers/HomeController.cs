@@ -55,9 +55,12 @@ namespace WebQuantum.Controllers
 
         // Добавление оператора в поле кубита глобальной таблицы
         [HttpPost]
-        public IActionResult AddOperator(int i)
+        public IActionResult AddOperator(int i, int n)
         {
-            BL.QLogic.Table[i].Add("I");
+            for (int k = 0; k < n; k++)
+            {
+                BL.QLogic.Table[i].Add("I");
+            }
             return Ok();
         }
 
@@ -65,10 +68,11 @@ namespace WebQuantum.Controllers
         [HttpPost]
         public IActionResult ChangeOperator(int i, int j, string op)
         {
-            BL.QLogic.Table[i][j] = op;
             List<List<string>> test = BL.QLogic.Table;
+            BL.QLogic.Table[i][j] = op;
+            
             int x = 0;
-            return Ok();    
+            return Ok();
         }
 
         // Удаление поля последнего кубита
@@ -82,7 +86,8 @@ namespace WebQuantum.Controllers
         [HttpGet]
         public IActionResult GetBinary(int y, string temp)
         {
-            int x = 0;
+            int x = -1;
+            List<List<string>> test = BL.QLogic.Table;
             for (int i = 0; i < BL.QLogic.Table.Count; i++)
             {
                 if (BL.QLogic.Table[i][y].Contains(temp))
@@ -93,11 +98,12 @@ namespace WebQuantum.Controllers
             return Content(x.ToString());
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult TestConnector()
         {
-            BL.QLogic.MakeCircuit();
-            return Ok();
+            List<int> res = BL.QLogic.MakeCircuit();
+            string result = string.Join(", ", res.ToArray());
+            return Content(result);
         }
 
 

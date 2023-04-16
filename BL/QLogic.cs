@@ -24,7 +24,7 @@ namespace BL
             return result;  
         }
 
-        public static void MakeCircuit()
+        public static List<int> MakeCircuit()
         {
             // Ранняя версия - ПЕРЕДЕЛАТЬ!!!
             Template template = new Template(Table.Count);
@@ -55,6 +55,7 @@ namespace BL
             Simulator simulator = new Simulator(qreg, circuit); 
             simulator.Run();
             List<int> lst = simulator.Result;
+            return lst;     
         }
     }
 }

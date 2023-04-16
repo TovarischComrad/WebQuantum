@@ -18,7 +18,6 @@
 
             var Id = 0;
 
-            
             var fl = false; // ожидание выбора положения n-арного оператора
             // Координаты для n-арных операторов
             var x = 0;
@@ -143,20 +142,22 @@
                 x = parseInt(s);
                 y = coor[1];
 
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("ChangeOperator", "Home")',
-                    data: { i: x, j: y, op: "I" },
-                    dataType: "json"
-                });
+                if (x >= 0) {
+                    
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("ChangeOperator", "Home")',
+                        data: { i: x, j: y, op: "I" },
+                        dataType: "json"
+                    });
 
-                //var div = getElementByCoor(x, y);
-                //div.setAttribute("class", "op");
-                //div.innerHTML = "";
+                    var op1 = document.getElementById("op" + x + "_" + y);
+                    op1.setAttribute("class", "op");
+                    op1.innerHTML = "";
+                }
+                
 
-                var op1 = document.getElementById("op" + x + "_" + y);
-                op1.setAttribute("class", "op");
-                op1.innerHTML = "";
+                
 
                 // Отправка данных в квантовое ядро ...
                 return false;
@@ -217,14 +218,13 @@
                     var operator = addOperator(j);
                     td.appendChild(operator);
                     tr.appendChild(td);
-
-                    $.ajax({
-                        type: "POST",
-                        url: '@Url.Action("AddOperator", "Home")',
-                        data: { i: Id },
-                        dataType: "json"
-                    });
                 }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddOperator", "Home")',
+                    data: { i: Id, n: m },
+                    dataType: "json"
+                });
                 var table = document.getElementById("qreg");
                 table.appendChild(tr);
 
@@ -273,10 +273,16 @@
             }
 
             function testConnector() {
+                s = "";
                 $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("TestConnector", "Home")'
+                    url: '@Url.Action("TestConnector", "Home")',
+                    type: 'GET',
+                    async: false,
+                    success: function(data) {
+                        s = data;
+                    }
                 });
+                document.getElementById("result").value = s;
             }
 
             // Загрузка объектов страницы
@@ -319,6 +325,7 @@
                     <td><button id="btn1">Add</button> </td>
                     <td><button id="btn2">Remove</button> </td>
                     <td><button id="btn3">Test</button></td>
+                    <td><input type="text" id="result" /></td>
                 </tr>
             </table>
             <br />  
