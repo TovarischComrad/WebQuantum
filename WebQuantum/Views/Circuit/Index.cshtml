@@ -218,10 +218,20 @@
                     td.appendChild(operator);
                     tr.appendChild(td);
                 }
+
+                // Ячейка, в которую будет выведен результат измерения
+                var td = document.createElement("td");
+                var res = document.createElement("div");
+                res.id = "res" + Id;
+                res.innerHTML = "-";
+                td.appendChild(res);
+                tr.appendChild(td);
+
+
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("AddOperator", "Circuit")',
-                data: { i: Id, n: operator_number },
+                    data: { i: Id, n: operator_number },
                     dataType: "json"
                 });
                 var table = document.getElementById("qreg");
@@ -273,9 +283,11 @@
                 n = 5;
                 
                 var div = document.getElementById("main");
-                var table = document.createElement("table");
-                table.id = "qreg";
-                div.appendChild(table);
+
+
+                //var table = document.createElement("table");
+                //table.id = "qreg";
+                //div.appendChild(table);
 
                 for (var i = 0; i < n; i++) {
                     var tr = addQubit();
@@ -292,7 +304,18 @@
                         s = data;
                     }
                 });
-                document.getElementById("result").value = s;
+
+                var arr = s.split(',').map(item => item.trim());
+                for (var i = 0; i < Id; i++) {
+                    console.log(arr[i]);
+                    if (arr[i] == "-1") {
+                        document.getElementById("res" + i).innerHTML = "-";
+                    }
+                    else {
+                        document.getElementById("res" + i).innerHTML = arr[i];
+                    }
+                    
+                }
             }
 
             // Загрузка объектов страницы
@@ -310,8 +333,8 @@
                 var btn2 = document.getElementById("btn2");
                 btn2.onclick = deleteQubit;
 
-                var btn3 = document.getElementById("btn3");
-                btn3.onclick = testConnector;
+                var measure = document.getElementById("measure");
+                measure.onclick = testConnector;
             });
         </script>
     </head>
@@ -336,11 +359,14 @@
 
                     <td><button id="btn1">Add</button> </td>
                     <td><button id="btn2">Remove</button> </td>
-                    <td><button id="btn3">Test</button></td>
-                    <td><input type="text" id="result" /></td>
+                    
+                    
                 </tr>
             </table>
             <br />  
+            <table id="qreg"></table>
+
+            <div><button id="measure">Measure</button></div>
         </div>
 
     </body>

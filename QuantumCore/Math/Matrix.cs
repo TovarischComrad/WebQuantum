@@ -42,14 +42,7 @@ namespace QuantumCore.Math
             _Matrix = new List<Vector>();
             for (int i = 0; i < Height; i++)
             {
-                if (random)
-                {
-                    _Matrix.Add(new Vector(Width, true));
-                }
-                else
-                {
-                    _Matrix.Add(new Vector(Width));
-                }
+                _Matrix.Add(new Vector(Width, random));
             }
         }
         public Matrix(int height, int width, Complex z)
